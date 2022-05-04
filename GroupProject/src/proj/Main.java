@@ -1,12 +1,11 @@
 package proj;
-
-import proj.cil.Console;
+import proj.core.MonopolyGame;
 
 public class Main {
     public static void main (String [] args) {
+        MonopolyGame game = new MonopolyGame();
+        game.play();
 
-        proj.cil.Console console = new Console();
-        console.startGame();
     }
     
 }
