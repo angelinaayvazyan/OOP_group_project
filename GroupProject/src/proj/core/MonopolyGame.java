@@ -61,18 +61,26 @@ public class MonopolyGame {
             players[turn].move( rollDice(2, players[turn]) );
             print();
 
-            String [] actions = board[players[turn].getPosition()].applicableActions();
+            String [] actions = board[players[turn].getPosition()].getApplicableActions();
             for (int i = 0; i < actions.length; i++)
                 System.out.println(i + " ) " + actions[i]);
-            
-            System.out.println("Please, select an action, by choosing propriate number.");
-            String action  = actions[sc.nextInt()];
-
-            if (action.startsWith("Buy"))
-                board[players[turn].getPosition()].buy(players[turn]);
+            if ( board[players[turn].getPosition()].isActionsAvailable() ) {
+                System.out.println("Please, select an action, by choosing propriate number.");
+                String action  = actions[sc.nextInt()];
+                if (action.startsWith("Buy"))
+                ( (Street) board[players[turn].getPosition()]).buy(players[turn]);
             //else if ( action.startsWith("Auction")
                 //board[players[turn].getPosition()].auction(players[turn]);
-            print();
+                print();
+            } else {
+                System.out.println("No Action available!");
+            }
+
+            
+
+           
+
+
                 
             turn =( turn + 1 ) % players.length;
         
@@ -85,13 +93,14 @@ public class MonopolyGame {
 
     private void print() {
         
-        int squerLanght = 5 + numberOfPlayers;
+        int squerLanght = 11 + numberOfPlayers;
         int numberOfSquers = 11;
 
         String line = "";
+        System.out.println(squerLanght * numberOfSquers  + 1);
         for (int i = 1; i <= squerLanght * numberOfSquers  + 1; i++) 
             line += "-";
-
+        System.out.println((numberOfSquers - 2) * squerLanght - 2);
         String space = "";
         for (int i = 0; i <= (numberOfSquers - 2) * squerLanght - 2; i++) 
             space += " ";
