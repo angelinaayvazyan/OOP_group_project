@@ -24,7 +24,7 @@ public class Street extends Location {
     public void buy(Player p) {
         // new action/s
         String [] actions = new  String[1];
-        actions[0] = "Pay the rent. Rent " + this.rent;
+        actions[0] = "Pay the rent. Rent " + this.rent + "$.";
         this.setApplicableActions(actions);
 
         p.pay(this.price);
