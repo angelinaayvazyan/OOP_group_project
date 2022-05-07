@@ -8,15 +8,18 @@ public class Location implements Cloneable {
 
 
 
-    public Location (int place) {
-        this(place, "Anonimous" );
+    public Location (int place, String name, String[] actions) {
+
+        this(place, name );
+        this.setApplicableActions(actions);
     }
+
 
     public Location (int place, String name) {
 
         this.place = place;
         this.name = name;
-        this.setApplicableActions(new String [0]);
+        //this.setApplicableActions(new String [0]);
         setRepresentation(this.name + ": " + this.place);
     }
 
@@ -63,6 +66,10 @@ public class Location implements Cloneable {
             applicableActions[i] = this.applicableActions[i];
     
         return applicableActions;
+    }
+    public String doAction(String srt, Player p) {
+
+        return "Done";
     }
 
     public String getName() {
