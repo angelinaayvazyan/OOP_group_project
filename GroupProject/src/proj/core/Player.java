@@ -1,6 +1,7 @@
 package proj.core;
 
 public class Player implements Cloneable {
+    
     private static int count = 0;
     private String name;
     private int id;
