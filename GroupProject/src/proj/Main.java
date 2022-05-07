@@ -1,10 +1,25 @@
 package proj;
-import proj.core.MonopolyGame;
+import javax.swing.UIManager;
+
+import proj.GUI.MonoployUI;
+import proj.core.MonopolyConsol;
+
 
 public class Main {
     public static void main (String [] args) {
-        MonopolyGame game = new MonopolyGame();
-        game.play();
+        // MonopolyConsol game = new MonopolyConsol();
+        // game.play();
+        try {
+
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+  
+          } catch (Exception e) {
+  
+            e.printStackTrace();
+        }
+
+        MonoployUI ui = new MonoployUI();
+        ui.setVisible(true);
 
     }
     
