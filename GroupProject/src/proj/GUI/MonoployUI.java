@@ -1,6 +1,7 @@
 package proj.GUI;
 import java.awt.GridLayout;
 import java.awt.MenuBar;
+import java.awt.Window;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -25,6 +26,7 @@ import javax.swing.plaf.basic.BasicBorders.MenuBarBorder;
 
 import proj.core.Monopoly;
 import proj.core.NotValidNumberOfPlayerException;
+import proj.core.Player;
 
 
 
@@ -33,14 +35,18 @@ public class MonoployUI extends JFrame {
 
     
     private Monopoly game;
-    int numberOfPlayers;
-    String[] names;
+    private int numberOfPlayers;
+    private String[] names;
+    private JPanel innerPanel;
+    private SquerBoard [][] squerBoards;
 
     
     public MonoployUI() {
+
+    
  
         System.out.println();
-        System.out.println("Game Monopoly has started");
+        System.out.println("Game Monopoly has started..");
         System.out.println();
 
 
@@ -50,6 +56,7 @@ public class MonoployUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLayout(new BorderLayout());
         //setBackground(Color.DARK_GRAY);
+        squerBoards = new SquerBoard[11][11];
         
 
         
@@ -70,8 +77,8 @@ public class MonoployUI extends JFrame {
 
                 }
                 //center
-                JPanel innerPanel = new JPanel();
-                innerPanel.setLayout(new GridLayout(3, 1));
+                innerPanel = new JPanel();
+                innerPanel.setLayout(new GridLayout(4, 1));
 
 
 
@@ -131,11 +138,18 @@ public class MonoployUI extends JFrame {
 
 
                 JPanel enterPanel = new JPanel();
-                enterPanel.setLayout(new GridLayout(3, 1));
+                // enterPanel.setLayout(new GridLayout(3, 1));
                 JButton enterButton = new JButton("Enter");
 
                 enterPanel.add(enterButton);
                 enterPanel.setBackground(Color.WHITE);
+                // 3 : 1 
+                innerPanel.add(enterPanel);
+                // 4 :1
+                JPanel messagePanel =  new JPanel();
+                messagePanel.setBackground(Color.WHITE);
+                innerPanel.add(messagePanel);
+                add(innerPanel, BorderLayout.CENTER);
                 enterButton.addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
@@ -145,15 +159,17 @@ public class MonoployUI extends JFrame {
                         try {
                             game =  new  Monopoly(numberOfPlayers, names);
                             validToStart = true;
-                        } catch (NotValidNumberOfPlayerException exception) {
-                            System.out.println(exception.getMessage());
+                        } catch (NotValidNumberOfPlayerException exception) { //harc chi erevum // chi ashxatum
                             JLabel message = new JLabel(exception.getMessage());
-                            enterPanel.add(message);
-
+                            messagePanel.removeAll(); 
+                            messagePanel.add(message);
+                            messagePanel.repaint();
+                            innerPanel.repaint();
                             System.out.println("Try again!");
                         }  
                         if (validToStart) {
-                            System.out.println("i am here");
+                            startGame();
+
                         }
                         
 
@@ -163,16 +179,64 @@ public class MonoployUI extends JFrame {
                     }
                 });
 
-                // 3 : 1 
-                innerPanel.add(enterPanel);
-                add(innerPanel, BorderLayout.CENTER);
-                
-                
 
         
-                 
 
     }
+
+    private void startGame() {
+        innerPanel.removeAll(); 
+        innerPanel.revalidate();
+        innerPanel.setLayout(new GridLayout(11, 11));
+        innerPanel.setBackground(Color.RED);
+        //innerPanel.setSize(2200, 2200);
+        //innerPanel.add(new SquerBoard(0, 0, "GO"));
+        for (int i = 0; i < 11; i ++) {
+            for (int j = 0; j < 11; j ++) {
+
+                int positionUi = positionUiGanerator(i * 11 + j);
+                if (positionUi >= 0) {
+                    squerBoards[i][j] = new SquerBoard(i, j, game.getLocationAt(positionUi).getName());
+                    for (int p = 0; p < game.getNumberOfPlayer(); p++ ){
+                        Player player = game.getPlayerAt(p);
+                        if(  player.getPosition() == positionUi ) {
+      
+                            squerBoards[i][j].add(new JLabel(new ImageIcon( ("GroupProject/src/proj/imgFiles/" +  player.getId() + ".png") )));
+                        } 
+
+                    }
+                }
+                else { 
+                    squerBoards[i][j] = new SquerBoard(i, j);
+                } 
+
+                squerBoards[i][j].setSize( innerPanel.getPreferredSize() );
+                
+                innerPanel.add(squerBoards[i][j]);
+
+            }
+        }
+
+
+        //innerPanel.repaint(); 
+        
+        // innerPanel.setVisible(true);
+
+    }
+
+    private int positionUiGanerator(int ij) {
+        if ( ij > 110 ) { 
+            return 120 - ij;
+        } else if ( ij % 11 == 0 ) {
+            return 20 - ij/11;
+        } else if (ij <= 10 ) {
+            return 20 + ij;
+        } else if (ij % 11 == 10) {
+            return 30 + ij % 10;
+        } else 
+            return -1;
+    }
+    
         
 
 }
