@@ -2,6 +2,7 @@ package proj.core;
 
 import java.util.Random;
 
+
 public class Monopoly {
 
     public static final int NUMBER_OF_SQUER = 40;
@@ -33,6 +34,10 @@ public class Monopoly {
 
     public Location getLocationAt(int position) {
         return board[position];
+    }
+
+    public boolean hasPositionAt(int i, int j) {
+        return i * 11 + j < 40;
     }
 
 
@@ -82,17 +87,17 @@ public class Monopoly {
                 case 34:
                 case 37:
                 case 39:
-                    board[i] = new Street(i, "St.");
+                    board[i] = new Street(i, "Street");
                     break;
                 
                 case 4:
                     String [] actions2 = {"Pay $200."};
-                    board[i] = new Location(i, "Community Chest", actions2);
+                    board[i] = new Location(i, "IncomeTax", actions2);
                     break;
 
                 case 38:
                     String [] actions38 = {"Pay $100."};
-                    board[i] = new Location(i, "Luxury Tex", actions38);
+                    board[i] = new Location(i, "LuxuryTex", actions38);
                     break;
 
                 case 2:
@@ -123,7 +128,7 @@ public class Monopoly {
                     break;
 
                 case 30:
-                    board[i] = new Location(i, "Go To Jail"); // for now 
+                    board[i] = new Location(i, "GoToJail"); // for now 
                     break;
 
 
@@ -151,5 +156,7 @@ public class Monopoly {
     public String toString() {
         return "Monopoly Game with " + numberOfPlayers + " players.";
     }
+
+
 
 }
