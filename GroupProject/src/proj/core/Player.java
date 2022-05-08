@@ -6,6 +6,7 @@ public class Player implements Cloneable {
     private int id;
     private int position; 
     private int money;
+    private int numberofHouses;
 
     public Player(String name) {
 
@@ -14,6 +15,7 @@ public class Player implements Cloneable {
         this.id = count;
         this.position = 0; 
         this.money = 10000; //in $s
+        this.numberofHouses = 0;
 
     }
 
@@ -39,6 +41,7 @@ public class Player implements Cloneable {
     public int getId() {
         return this.id;
     }
+
     public void pay(int value) {
         if ( this.money  >= value) {
             this.money = this.money - value;
@@ -48,6 +51,10 @@ public class Player implements Cloneable {
             System.out.println("Not enaf money.");
         }
         
+    }
+
+    public void take(int value) {
+        this.money = this.money + value;
     }
 
     public Player clone() {
@@ -62,9 +69,21 @@ public class Player implements Cloneable {
         }
     }
 
+    public int getnumberofHouses(){
+        return this.numberofHouses;
+    }
+
     public void move(int steps) {
         this.position = (this.position + steps) % 40;
-    } 
+    }
+
+    public void addOrSubtractMoney(int amount){
+        this.money = money + amount;
+    }
+
+    public void increaseRent(int amount){
+        money= money + (amount * getnumberofHouses());
+    }
 
 
 }
