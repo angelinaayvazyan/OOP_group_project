@@ -10,7 +10,7 @@ public class Location implements Cloneable {
 
     public Location (int place, String name, String[] actions) {
 
-        this(place, name );
+        this(place, name);
         this.setApplicableActions(actions);
     }
 
