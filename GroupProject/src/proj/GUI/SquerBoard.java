@@ -11,20 +11,27 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-public class SquerBoard extends JPanel {
+public class SquerBoard extends JButton {
 
     private int x;
     private int y;
     Color color;
     Image backgroundImage;
+    JLabel info;
 
 
     public SquerBoard(int x, int y) {
+       
         this(x, y, "empty");
+        // info = new JLabel();
+        //info.setText("hello");
+        add(info);
     }
+
     public SquerBoard(int x, int y, String str) {
    
-
+        info = new JLabel();
+        info.setHorizontalAlignment(JLabel.CENTER);
         this.x = x;
         this.y = y;
         try {
@@ -42,6 +49,11 @@ public class SquerBoard extends JPanel {
         // setPosition(str);
 
 
+    }
+    public void setInfo(String text){
+
+        //info = new JLabel();
+        info.setText(text);
     }
 
     public void setPosition(String str) {
@@ -64,6 +76,14 @@ public class SquerBoard extends JPanel {
         // Draw the background image.
         g.drawImage(backgroundImage, 0, 0, this);
       }
+
+    public int getPostionJ() {
+        return x;
+    }
+
+    public int getPostionI() {
+        return y;
+    }
 
     
     
