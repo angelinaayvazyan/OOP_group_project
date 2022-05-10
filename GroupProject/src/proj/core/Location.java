@@ -4,14 +4,15 @@ public class Location implements Cloneable {
     private int place; // 0-40
     private String name;
     private String[] applicableActions;
-    private String representation;
+
+
 
 
 
     public Location (int place, String name, String[] actions) {
 
         this(place, name);
-        this.setApplicableActions(actions);
+        setApplicableActions(actions);
     }
 
 
@@ -19,30 +20,31 @@ public class Location implements Cloneable {
 
         this.place = place;
         this.name = name;
-        //this.setApplicableActions(new String [0]);
-        setRepresentation(this.name + ": " + this.place);
+
     }
 
-    public void setApplicableActions(String [] actions) {
+    private String [] applicableActionsGanerator (String [] actions) {
+
         if (actions.length > 0) {
-            this.applicableActions = new String [actions.length];
+
+            String [] applicableActionsNew = new String [actions.length];
             for (int i = 0; i < actions.length; i++)
-                this.applicableActions[i] = actions[i];
+                applicableActionsNew[i] = actions[i];
+            return applicableActionsNew;
         }
         else
-            this.applicableActions = new String [0];
+            return new String [0];
     }
 
-    public void setRepresentation(String representation) {
-        this.representation = representation;
-    }
+
     public boolean isActionsAvailable() {
 
         return this.applicableActions.length > 0;
     }
 
     public String toString() {
-        return this.representation;
+
+        return name + " : " + place;
     }
 
     public Location clone() {
@@ -58,18 +60,31 @@ public class Location implements Cloneable {
         }
 
     }
-    public String [] getApplicableActions() {
 
-        String[] applicableActions = new String[this.applicableActions.length];
 
-        for (int i = 0; i < this.applicableActions.length; i++ ) 
-            applicableActions[i] = this.applicableActions[i];
-    
-        return applicableActions;
+    public String doAction(String str, Player p) {
+        switch (str.charAt(0)) {
+
+            case 'T':
+
+                p.take( Integer.parseInt(str.substring(19)) );
+                return "You took the money successfully.";
+
+            case 'P' :
+
+                if( p.pay(Integer.parseInt(str.substring(19))) ) 
+                    return "You paid the money successfully.";
+                else
+                    return "OOPS! You do not have enough money!!!";
+
+            default:
+
+                return "Done.";
+        }
     }
-    public String doAction(String srt, Player p) {
+    public void setApplicableActions(String [] actions) {
 
-        return "Done";
+        this.applicableActions = applicableActionsGanerator(actions);
     }
 
     public String getName() {
@@ -79,9 +94,18 @@ public class Location implements Cloneable {
     public int getPlace() {
         return this.place;
     }
-    public String getRepresentation() {
-        return this.representation;
+
+    public String [] getApplicableActions() {
+
+        return applicableActionsGanerator(this.applicableActions);
     }
+
+    public int getCountOfApplicableActions() {
+        
+        return this.applicableActions.length;
+    }
+
+
 
 
 
