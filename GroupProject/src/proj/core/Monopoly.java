@@ -10,22 +10,28 @@ public class Monopoly {
 
     private Player[] players;
     private int numberOfPlayers;
-    //private int turn;
+    private int turn;
 
     public Monopoly (int numberOfPlayers, String[] names) throws NotValidNumberOfPlayerException {
         playerGenerator( numberOfPlayers, names ); 
         boardGenerator();
+        turn = 0;
     }
 
-    public Monopoly(int i, String string, String string2) {
-    }
+
 
     public boolean isGameOver() {
         return false;
     }
     // accsesor
     public Player getPlayerAt(int position) {
-        return players[position].clone();
+
+        if (position < numberOfPlayers) {
+            //return players[position].clone();
+            return players[position];
+        }  
+        else
+            return null;
     }
 
     public int getNumberOfPlayer() {
@@ -62,9 +68,11 @@ public class Monopoly {
         for (int i = 0; i < NUMBER_OF_SQUER; i++ ) {
             switch (i) {
                 case 0:
-                    String [] actions0 = {"Get salary $200."};
+
+                    String [] actions0 = {"Take your salary $ 200"};
                     board[i] = new Location(i, "GO", actions0);
                     break;
+
                 case 1:
                 case 3:
                 case 6:
@@ -87,16 +95,16 @@ public class Monopoly {
                 case 34:
                 case 37:
                 case 39:
-                    board[i] = new Street(i, "Street");
+                    board[i] = new PurchasableLocation(i, "Street",  " for ranting this street.", 100);
                     break;
                 
                 case 4:
-                    String [] actions2 = {"Pay $200."};
+                    String [] actions2 = {"Pay your new tax $ 200"};
                     board[i] = new Location(i, "IncomeTax", actions2);
                     break;
 
                 case 38:
-                    String [] actions38 = {"Pay $100."};
+                    String [] actions38 = {"Pay your new tax $ 100"};
                     board[i] = new Location(i, "LuxuryTex", actions38);
                     break;
 
@@ -107,7 +115,12 @@ public class Monopoly {
                 case 33:
                 case 36:
 
-                    board[i] = new Location(i, "Chance");//for now
+                    String [] actions36 = { "Take your bonus  $ 100",
+                                            "Take your bonus  $ 50",
+                                            "Pay your panalty $ 70",
+                                            "Pay your panalty $ 35"
+                    };
+                    board[i] = new Chance(i,  actions36);
                     break;
 
                 case 5:
@@ -115,26 +128,30 @@ public class Monopoly {
                 case 25:
                 case 35:
                 
-                    board[i] = new Location(i, "Transportation"); //for now
+                    board[i] = new PurchasableLocation(i, "Transportation", " for using this transportaion.", 200); 
                     break;
 
                 case 10:
+
                     String [] actions10 = {"Visit your friends in jail!", "I dont want to vist anyone."};
                     board[i] = new Location(i, "Jail", actions10); 
                     break;
+
                 case 20:
-                    String [] actions20 = {"Park here."};
+
+                    String [] actions20 = {"You can park here free."};
                     board[i] = new Location(i, "Parking", actions20); 
                     break;
 
                 case 30:
-                    board[i] = new Location(i, "GoToJail"); // for now 
+                    board[i] = new GoToJail(i);
                     break;
 
 
                 case 12:
                 case 28:
-                    board[i] = new Location(i, "Utility"); //for now 
+
+                    board[i] = new PurchasableLocation(i, "Utility", " for your bills." , 150); 
                     break;
 
 
@@ -155,6 +172,28 @@ public class Monopoly {
     }
     public String toString() {
         return "Monopoly Game with " + numberOfPlayers + " players.";
+    }
+
+    public int getTurn() {
+        return  this.turn;
+    }
+    public void setNextTurn() {
+        this.turn = (this.turn + 1) % numberOfPlayers;
+    }
+
+    public void  whoStrats() {  
+
+        int maxDiceValue = 0; 
+        for (int i  = 0; i < getNumberOfPlayer(); i++) {
+
+            int diceValue = players[i].getDiceVlaue();
+
+            if(maxDiceValue < diceValue) {
+                maxDiceValue = diceValue;
+                this.turn = i;
+            }
+        }
+ 
     }
 
 
