@@ -1,8 +1,15 @@
 package proj.core;
+/**
+ * A mutable class for representing the action going to jail in monopoly. Contains a nonstatic method
+ * that prints all the actions that a player can do with a when being in a Location of gotoJail.
+ */
 
 public class GoToJail extends Location {
 
-
+    /** A parameterized constructor,with arguments of type int.
+     * The constructor initializes the position, gives the name, initializes the array of type String, containing
+     * all applicable actions .
+     */
     public GoToJail(int position) {
 
         super(position, "GoToJail");
@@ -11,6 +18,11 @@ public class GoToJail extends Location {
         applicableActions[1] = "Pay $50 and you are free.";
         setApplicableActions(applicableActions);
     }
+
+    /**
+     * A non-static method that takes two arguments, with type String and Player,
+     * and according to the first character of the given string prints the appropriate message to the user
+     */
 
     public String doAction(String str, Player p) {
 
@@ -26,7 +38,7 @@ public class GoToJail extends Location {
             
             case 'G':
                 p.setInJail(true);
-                return outputMessage + "You will stay  in the jail for 3 rounds.";
+                return outputMessage + "Sadly , You will stay  in the jail for 3 rounds.";
 
             default:
                 return "Done";

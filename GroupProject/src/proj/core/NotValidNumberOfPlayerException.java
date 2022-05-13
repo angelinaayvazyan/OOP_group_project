@@ -3,7 +3,7 @@ package proj.core;
 public class NotValidNumberOfPlayerException extends Exception {
 
     public NotValidNumberOfPlayerException() { 
-        this("Number Of player can be 2 - 6 with equal names");
+        this("Number Of players can be from 2 to 6 with corresponding number of names");
     }
 
     public NotValidNumberOfPlayerException(String message) { 
